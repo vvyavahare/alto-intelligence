@@ -56,7 +56,6 @@ public class Main {
         System.out.println("Another group of 6 arrived:" + groupOf6FriendsHollywood);
         manager.onArrive(groupOf6FriendsHollywood);
         manager. printTables();
-//        manager.printGroupsWaitingInQueue();
 
         System.out.println("--------------------------");
         Thread.sleep(1500);
@@ -64,17 +63,14 @@ public class Main {
         System.out.println("Another group of 3 arrived:" + groupOf3FriendsMusketeers);
         manager.onArrive(groupOf3FriendsMusketeers);
         manager.printTables();
-//        manager.printGroupsWaitingInQueue();
 
         System.out.println("--------------------------");
         Thread.sleep(2500);
         System.out.println("Group pf 6 got bored of waiting:" + groupOf6FriendsHollywood);
         manager.onLeave(groupOf6FriendsHollywood);
-//        manager.printGroupsWaitingInQueue();
 
         System.out.println("--------------------------");
         Thread.sleep(2500);
-//        manager.onLeave(clientsGroup2CoupleSmith);
         System.out.println("Group leaving:" + clientsGroup4FamilyJohnSnow);
         manager.onLeave(clientsGroup4FamilyJohnSnow);
         manager.printTables();
@@ -93,11 +89,4 @@ public class Main {
         manager.onArrive(clientsGroup2CoupleTom);
         manager.printTables();
     }
-
-//    private static void printTables() {
-//        System.out.println("printing latest tables occupancy information:");
-//        for (Table table : tables) {
-//            System.out.println(table);
-//        }
-//    }
 }
