@@ -83,18 +83,6 @@ public class RestManager {
         }
     }
 
-//    public void printGroupsWaitingInQueue() {
-//
-//        if (!waitingQueue.isEmpty()) {
-//            System.out.println("Groups waiting to be seated:");
-//            for (ClientsGroup g : waitingQueue) {
-//                System.out.println(" - " + g);
-//            }
-//        } else {
-//            System.out.println("Groups waiting to be seated -> none");
-//        }
-//    }
-
     public void printTables() {
         synchronized (lock) {
             System.out.println("\n=== Current Tables Status ===");
