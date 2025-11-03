@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
+import java.util.stream.Collectors;
+import java.util.Optional;
 import java.util.Map;
 import java.util.Queue;
 import java.util.LinkedList;
@@ -28,13 +29,14 @@ public class RestManager {
 
     public void onArrive(ClientsGroup group) {
         synchronized (lock) {
-            Table table = findAvailableTableFor(group.size);
-            if (table != null) {
-                table.seatGroup(group);
-                seatedGroups.put(group, table);
-            } else {
-                waitingQueue.add(group);
-            }
+            findAvailableTableFor(group.size)
+                    .ifPresentOrElse(
+                            table -> {
+                                table.seatGroup(group);
+                                seatedGroups.put(group, table);
+                            },
+                            () -> waitingQueue.add(group)
+                    );
         }
     }
 
@@ -56,44 +58,39 @@ public class RestManager {
         }
     }
 
-    private Table findAvailableTableFor(int groupSize) {
-        for (Table table : tables) {
-            if (table.isEmpty() && table.size >= groupSize)
-                return table;
-        }
-        for (Table table : tables) {
-            if (!table.isEmpty() && table.hasSpaceFor(groupSize))
-                return table;
-        }
-        return null;
+    private Optional<Table> findAvailableTableFor(int groupSize) {
+        return tables.stream()
+                .filter(t -> t.isEmpty() && t.size >= groupSize)
+                .findFirst()
+                .or(() -> tables.stream()
+                        .filter(t -> !t.isEmpty() && t.hasSpaceFor(groupSize))
+                        .findFirst());
     }
 
     private void assignWaitingGroups() {
         if (waitingQueue.isEmpty()) return;
 
-        Iterator<ClientsGroup> iterator = waitingQueue.iterator();
-        while (iterator.hasNext()) {
-            ClientsGroup group = iterator.next();
-            Table table = findAvailableTableFor(group.size);
-            if (table != null) {
-                table.seatGroup(group);
-                seatedGroups.put(group, table);
-                iterator.remove();
-            }
-        }
+        List<ClientsGroup> assigned = waitingQueue.stream()
+                .filter(group -> findAvailableTableFor(group.size)
+                        .map(table -> {
+                            table.seatGroup(group);
+                            seatedGroups.put(group, table);
+                            return true;
+                        })
+                        .orElse(false))
+                .collect(Collectors.toList());
+
+        waitingQueue.removeAll(assigned);
     }
 
     public void printTables() {
         synchronized (lock) {
             System.out.println("\n=== Current Tables Status ===");
-            for (Table table : tables) {
-                System.out.println(table);
-            }
+            tables.forEach(System.out::println);
+
             if (!waitingQueue.isEmpty()) {
                 System.out.println("\nWaiting Queue:");
-                for (ClientsGroup group : waitingQueue) {
-                    System.out.println(" - " + group);
-                }
+                waitingQueue.forEach(group -> System.out.println(" - " + group));
             } else {
                 System.out.println("\n --No groups waiting --");
             }
