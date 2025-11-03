@@ -20,7 +20,7 @@ public class Main {
         ClientsGroup clientsGroup2CoupleSmith = new ClientsGroup(2, "Couple Smith");
         ClientsGroup clientsGroup4FamilyJohnSnow = new ClientsGroup(4, "Family John Snow");
         ClientsGroup clientsGroup6FriendsRachel = new ClientsGroup(6, "Friends Rachel");
-        // Simulate concurrent arrivals
+        // Simulate concurrent arrivals of 3 different groups
         Thread t1 = new Thread(() -> manager.onArrive(clientsGroup2CoupleSmith));
         Thread t2 = new Thread(() -> manager.onArrive(clientsGroup4FamilyJohnSnow));
         Thread t3 = new Thread(() -> manager.onArrive(clientsGroup6FriendsRachel));
@@ -35,7 +35,7 @@ public class Main {
         System.out.println("Seated groups after arrival:");
         manager.printTables();
 
-        Thread.sleep(500);
+        Thread.sleep(2500);
         // Simulate arrive & leaves
         ClientsGroup groupOf2CoupleVishal = new ClientsGroup(2, "Couple Vishal");
         System.out.println("--------------------------");
@@ -44,24 +44,31 @@ public class Main {
         manager.printTables();
 
         System.out.println("--------------------------");
-        Thread.sleep(500);
+        Thread.sleep(2500);
         System.out.println("Group leaving:" + groupOf2CoupleVishal);
         manager.onLeave(groupOf2CoupleVishal);
         manager.printTables();
 
 
         System.out.println("--------------------------");
-        Thread.sleep(1500);
+        Thread.sleep(2500);
         ClientsGroup groupOf6FriendsHollywood = new ClientsGroup(6, "Friends Hollywood");
         System.out.println("Another group of 6 arrived:" + groupOf6FriendsHollywood);
         manager.onArrive(groupOf6FriendsHollywood);
-        manager. printTables();
+        manager.printTables();
 
         System.out.println("--------------------------");
-        Thread.sleep(1500);
+        Thread.sleep(2500);
         ClientsGroup groupOf3FriendsMusketeers = new ClientsGroup(3, "Friends Musketeers");
         System.out.println("Another group of 3 arrived:" + groupOf3FriendsMusketeers);
         manager.onArrive(groupOf3FriendsMusketeers);
+        manager.printTables();
+
+        System.out.println("--------------------------");
+        Thread.sleep(2500);
+        ClientsGroup groupOf6FriendsHolland = new ClientsGroup(6, "Friends Holland");
+        System.out.println("Another group of 6 arrived:" + groupOf6FriendsHolland);
+        manager.onArrive(groupOf6FriendsHolland);
         manager.printTables();
 
         System.out.println("--------------------------");
@@ -88,5 +95,36 @@ public class Main {
         Thread.sleep(2500);
         manager.onArrive(clientsGroup2CoupleTom);
         manager.printTables();
+
+        System.out.println("--------------------------");
+        Thread.sleep(2500);
+        System.out.println("Group leaving:" + clientsGroup2CoupleTom);
+
+        manager.onLeave(clientsGroup2CoupleTom);
+        manager.printTables();
+
+        System.out.println("--------------------------");
+        Thread.sleep(2500);
+        System.out.println("Group leaving:" + clientsGroup2CoupleBeckham);
+        manager.onLeave(clientsGroup2CoupleBeckham);
+        manager.printTables();
+
+        // Try to leave a group that had already left long back
+        manager.onLeave(groupOf2CoupleVishal);
+
+
+        System.out.println("--------------------------");
+        Thread.sleep(2500);
+        System.out.println("Group leaving:" + clientsGroup2CoupleSmith);
+        manager.onLeave(clientsGroup2CoupleSmith);
+        manager.printTables();
+
+        System.out.println("--------------------------");
+        Thread.sleep(2500);
+        ClientsGroup groupOfTrinity = new ClientsGroup(3, "Trinity");
+        System.out.println("Another group of 3 arrived:" + groupOfTrinity);
+        manager.onArrive(groupOfTrinity);
+        manager.printTables();
+
     }
 }
