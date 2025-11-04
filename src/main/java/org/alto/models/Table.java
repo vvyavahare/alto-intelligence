@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Table {
-    public final int size; // number of chairs
+    public final int size;
     private int occupied = 0;
     private final List<ClientsGroup> seatedGroups = new ArrayList<>();
 
