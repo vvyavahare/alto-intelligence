@@ -78,7 +78,7 @@ public class RestManager {
                             return true;
                         })
                         .orElse(false))
-                .collect(Collectors.toList());
+                .toList();
 
         waitingQueue.removeAll(assigned);
     }

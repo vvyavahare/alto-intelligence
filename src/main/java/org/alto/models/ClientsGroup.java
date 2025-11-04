@@ -16,8 +16,7 @@ public class ClientsGroup {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof ClientsGroup)) return false;
-        ClientsGroup that = (ClientsGroup) o;
+        if (!(o instanceof ClientsGroup that)) return false;
         return size == that.size && Objects.equals(name, that.name);
     }
 
